@@ -34,12 +34,12 @@ openai.api_key = st.secrets.OpenAIAPI.openai_api_key
 
 # Sidebar configurations
 st.sidebar.image("goo-net2.png")
-if cleark == "リサ":
+if clerk == "リサ":
     st.sidebar.image("BMW_female_concierge.png")
 else:
     st.sidebar.image("BMW_male_concierge1.png")
 st.sidebar.markdown("**モデルの選択**")
-model = st.sidebar.selectbox("モデル", ["gpt-3.5-turbo", "gpt-4"])
+model = st.sidebar.selectbox("モデル", ["gpt-4","gpt-3.5-turbo"])
 
 st.sidebar.markdown("**店員の選択**")
 clerk = st.sidebar.selectbox("店員", ["リサ", "ケン" ])
