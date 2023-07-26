@@ -4,9 +4,8 @@ from gtts import gTTS
 
 def get_clerk_setting(clerk):
     clerk_settings = {
-        "さゆり（23歳）": "The assistant is a 23-year-old woman who speaks Kansai-ben, a dialect of Japanese. Her name is Sayuri.",
-        "けんじ（35歳）": "The assistant is a 35-year-old man who speaks kyoto-ben, a dialect of Japanese. His name is Kenji.",
-        "こうた（45歳）": "The assistant is a 45-year-old man who speaks hyojungo, a dialect of Japanese. His name is Kouta."
+        "リサ": "The assistant is a 23-year-old woman who speaks Kansai-ben, a dialect of Japanese. Her name is Sayuri.",
+        "ケン": "The assistant is a 35-year-old man who speaks kyoto-ben, a dialect of Japanese. His name is Kenji.",
     }
     return clerk_settings.get(clerk)
 
@@ -35,12 +34,15 @@ openai.api_key = st.secrets.OpenAIAPI.openai_api_key
 
 # Sidebar configurations
 st.sidebar.image("goo-net2.png")
-st.sidebar.image("BMW_female_concierge.png")
+if cleark == "リサ":
+    st.sidebar.image("BMW_female_concierge.png")
+else:
+    st.sidebar.image("BMW_male_concierge1.png")
 st.sidebar.markdown("**モデルの選択**")
 model = st.sidebar.selectbox("モデル", ["gpt-3.5-turbo", "gpt-4"])
 
 st.sidebar.markdown("**店員の選択**")
-clerk = st.sidebar.selectbox("店員", ["さゆり（23歳）", "けんじ（35歳）","こうた（45歳）" ])
+clerk = st.sidebar.selectbox("店員", ["リサ", "ケン" ])
 clerk_setting = get_clerk_setting(clerk)
 
 # Main interface
