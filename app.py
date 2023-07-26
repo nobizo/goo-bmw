@@ -30,20 +30,6 @@ def communicate():
     st.session_state["user_input"] = ""
     st.session_state["messages"] = messages  # Update the session state with modified messages
 
-#def communicate():
-#    messages = st.session_state["messages"]
-#    user_message = {"role": "user", "content": st.session_state["user_input"]}    
-#    messages.append(user_message)
-#    
-#    response = openai.ChatCompletion.create(
-#        model=model,
-#        messages=messages
-#    )
-#    
-#    bot_message = response["choices"][0]["message"]
-#    messages.append(bot_message)
-#    st.session_state["user_input"] = ""
-
 # Set API keys
 openai.api_key = st.secrets.OpenAIAPI.openai_api_key
 
@@ -56,9 +42,9 @@ clerk = st.sidebar.selectbox("店員", ["さゆり（23歳）", "けんじ（35�
 clerk_setting = get_clerk_setting(clerk)
 
 # Main interface
-st.title(f"CAR CHAT α 23（{model}）")
+# st.title(f"CAR CHAT α 23（{model}）")
 st.image("bmw.jpg")
-st.write(f"{clerk}です。わたしはあなたのライフスタイルにあったクルマ探しのお手伝いをします。")
+# st.write(f"{clerk}です。わたしはあなたのライフスタイルにあったクルマ探しのお手伝いをします。")
 
 if "messages" not in st.session_state:
     st.session_state["messages"] = [{"role": "system", "content": st.secrets.AppSettings.chatbot_setting}]
