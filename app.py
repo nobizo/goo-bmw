@@ -57,7 +57,7 @@ clerk_setting = get_clerk_setting(clerk)
 
 # Main interface
 st.title(f"CAR CHAT α 23（{model}）")
-st.image("car_dealer.png")
+st.image("bmw.jpg")
 st.write(f"{clerk}です。わたしはあなたのライフスタイルにあったクルマ探しのお手伝いをします。")
 
 if "messages" not in st.session_state:
