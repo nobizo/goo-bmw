@@ -35,6 +35,7 @@ openai.api_key = st.secrets.OpenAIAPI.openai_api_key
 
 # Sidebar configurations
 st.sidebar.image("goo-net2.png")
+st.sidebar.image("BMW_female_concierge.png")
 st.sidebar.markdown("**モデルの選択**")
 model = st.sidebar.selectbox("モデル", ["gpt-3.5-turbo", "gpt-4"])
 
