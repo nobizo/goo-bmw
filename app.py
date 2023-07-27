@@ -8,7 +8,7 @@ def communicate():
     
     # Add system message based on nickname
     if not messages and "nickname" in st.session_state:
-        greeting = f"こんにちは、{st.session_state['nickname']}さん。グーネットのBMWコンシェルジュサービスへようこそ！"
+        greeting = f"こんにちは、{st.session_state['nickname']}さん。グーネットのBMWコンシェルジュサービスへようこそ！どんなクルマをお探しですか？BMWのことならどんなことでもご質問ください。"
         messages.append({"role": "system", "content": greeting})
 
     if st.session_state["user_input"].strip():
