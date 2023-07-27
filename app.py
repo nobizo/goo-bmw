@@ -50,7 +50,7 @@ if st.sidebar.button("リセット"):
     st.experimental_rerun()
 
 # Main interface
-st.image("bmw.jpg")
+st.image("bmw-goo.jpg")
 
 if "messages" not in st.session_state:
     st.session_state["messages"] = []
