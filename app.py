@@ -50,7 +50,11 @@ if st.sidebar.button("設定"):
 
 # Reset Button
 if st.sidebar.button("リセット"):
-    st.session_state["trigger_rerun"] = True
+    keys_to_delete = list(st.session_state.keys())
+    for key in keys_to_delete:
+        del st.session_state[key]
+    st.experimental_rerun()
+
 
 # if st.sidebar.button("リセット"):
 #    st.write("Resetting...")  # この行を追加
