@@ -51,7 +51,7 @@ if st.sidebar.button("設定"):
 # Reset Button
 if st.sidebar.button("リセット"):
     st.session_state.clear()  # すべての状態をクリア
-    st.session_state["reset_clicked"] = True  # リセットがクリックされたことを示す状態をセット
+    st.experimental_rerun()  # ページを再読み込み
 
 # Main interface
 st.image("bmw.jpg")
