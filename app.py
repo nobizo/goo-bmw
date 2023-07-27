@@ -30,35 +30,6 @@ def communicate():
     st.session_state["user_input"] = ""
     st.session_state["messages"] = messages  # Update the session state with modified messages
 
-#def communicate():
-#    if not st.session_state.get("nickname"):
-#        st.session_state["nickname"] = st.session_state.get("nickname_temp", "")
-#    messages = st.session_state.get("messages", [])
-#    
-#    # Add system message based on nickname
-#    if not messages and "nickname" in st.session_state:
-#        greeting = f"こんにちは、{st.session_state['nickname']}さん。グーネットのBMWコンシェルジュサービスへようこそ！どんなクルマをお探しですか？BMWのことならどんなことでもご質問ください。"
-#        messages.append({"role": "system", "content": greeting})#
-#
-#    if not messages:
-#        messages.append({"role": "system", "content": chatbot_system_role})
-#
-#    
-#    if st.session_state["user_input"].strip():
-#        user_message = {"role": "user", "content": st.session_state["user_input"]}    
-#        messages.append(user_message)
-#        
-#        response = openai.ChatCompletion.create(
-#            model=model,
-#            messages=messages
-#        )
-#    
-#        bot_message = response["choices"][0]["message"]
-#        messages.append(bot_message)
-#
-#    st.session_state["user_input"] = ""
-#    st.session_state["messages"] = messages  # Update the session state with modified messages
-
 # Set API keys
 openai.api_key = st.secrets.OpenAIAPI.openai_api_key
 
@@ -104,14 +75,6 @@ if "nickname" in st.session_state:
     user_input = st.text_area("", value=st.session_state["user_input"], key="user_input", on_change=communicate)
 else:
     st.text_area("", "ニックネームをサイドバーから設定してください。", disabled=True)
-
-#　user_input = st.text_input("", key="user_input", on_change=communicate)
-
-#if st.session_state["messages"]:
-#    for message in reversed(st.session_state["messages"]):
-#        speaker_icon = "🙎" if message["role"] == "user" else "🚗"
-#        st.write(speaker_icon + ": " + message["content"])
-#
 
 if st.session_state["messages"]:
     for message in reversed(st.session_state["messages"]):
