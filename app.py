@@ -76,7 +76,17 @@ else:
 
 #　user_input = st.text_input("", key="user_input", on_change=communicate)
 
+#if st.session_state["messages"]:
+#    for message in reversed(st.session_state["messages"]):
+#        speaker_icon = "🙎" if message["role"] == "user" else "🚗"
+#        st.write(speaker_icon + ": " + message["content"])
+#
+
+
 if st.session_state["messages"]:
     for message in reversed(st.session_state["messages"]):
+        if message["role"] == "system" and message["content"] == chatbot_system_role:
+            continue
         speaker_icon = "🙎" if message["role"] == "user" else "🚗"
         st.write(speaker_icon + ": " + message["content"])
+
