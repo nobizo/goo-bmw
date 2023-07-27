@@ -31,10 +31,10 @@ def communicate():
 openai.api_key = st.secrets.OpenAIAPI.openai_api_key
 
 # Sidebar configurations
-st.sidebar.markdown("**モデルの選択**")
+# st.sidebar.markdown("**モデルの選択**")
 model = st.sidebar.selectbox("モデル", ["gpt-4","gpt-3.5-turbo"])
 
-st.sidebar.markdown("**店員の選択**")
+# st.sidebar.markdown("**店員の選択**")
 clerk = st.sidebar.selectbox("店員", ["リサ", "ケン" ])
 clerk_setting = get_clerk_setting(clerk)
 
