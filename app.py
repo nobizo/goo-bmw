@@ -26,15 +26,16 @@ def communicate():
     bot_message = response["choices"][0]["message"]
     messages.append({"role": "assistant", "content": bot_message["content"]})
     st.session_state.messages = messages  # Update the session state with modified messages
+    st.session_state.user_input = ""  # Clear user input
 
 # Set API keys
 openai.api_key = st.secrets.OpenAIAPI.openai_api_key
 
 # Sidebar configurations
-# st.sidebar.markdown("**モデルの選択**")
+st.sidebar.markdown("**モデルの選択**")
 model = st.sidebar.selectbox("モデル", ["gpt-4","gpt-3.5-turbo"])
 
-# st.sidebar.markdown("**店員の選択**")
+st.sidebar.markdown("**店員の選択**")
 clerk = st.sidebar.selectbox("店員", ["リサ", "ケン" ])
 clerk_setting = get_clerk_setting(clerk)
 
@@ -52,15 +53,17 @@ st.sidebar.image(clerk_images[clerk])
 # Main interface
 st.image("bmw.jpg")
 
-# Move the message input to the bottom of the page
-initial_message = "まずはあなたのニックネームと何をアドバイスしてほしいか教えてください。" if "messages" not in st.session_state else ""
-user_input = st.text_area("", value=initial_message, key="user_input")
-
-if st.button("送信"):
-    communicate()
-
-# Display messages (Reversed order to show old messages at the top)
+# Display messages
 if "messages" in st.session_state:
     for message in st.session_state["messages"]:
         speaker_icon = "🙎" if message["role"] == "user" else "🚗"
         st.write(speaker_icon + ": " + message["content"])
+
+# Input and send button
+initial_message = "まずはあなたのニックネームと何をアドバイスしてほしいか教えてください。" if "messages" not in st.session_state else ""
+col1, col2 = st.beta_columns([4,1])
+with col1:
+    st.session_state.user_input = st.text_area("", value=initial_message, key="user_input")
+with col2:
+    if st.button("送信"):
+        communicate()
