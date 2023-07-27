@@ -15,16 +15,18 @@ def communicate():
     if not messages:
         messages.append({"role": "system", "content": get_clerk_setting(clerk)})
 
-    user_message = {"role": "user", "content": st.session_state.new_user_input}  # Change this line
+    user_message = {"role": "user", "content": st.session_state.new_user_input}    
     messages.append(user_message)
     
-    response = openai.ChatCompletion.create(
+    response = openai.Completion.create(
         model=model,
-        messages=messages
+        prompt=f"User: {user_message['content']}\nAssistant:",
+        max_tokens=150
     )
     
-    bot_message = response["choices"][0]["message"]
-    messages.append({"role": "assistant", "content": bot_message["content"]})
+    bot_message_content = response.choices[0].text.strip()
+    messages.append({"role": "assistant", "content": bot_message_content})
+    
     st.session_state.messages = messages  # Update the session state with modified messages
 
 # Set API keys
