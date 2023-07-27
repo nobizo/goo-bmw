@@ -3,8 +3,8 @@ import openai
 
 def get_clerk_setting(clerk):
     clerk_settings = {
-        "リサ": "The assistant is a 23-year-old woman who speaks Kansai-ben, a dialect of Japanese. Her name is Sayuri.",
-        "ケン": "The assistant is a 35-year-old man who speaks kyoto-ben, a dialect of Japanese. His name is Kenji.",
+        "リサ": "わたしはBMWのコンシェルジュです。BMWのことならなんでもご相談ください。",
+        "ケン": "わたしは本BMWショップの店長をしています。BMWのことならなんでもご相談ください。",
     }
     return clerk_settings.get(clerk)
 
@@ -32,16 +32,12 @@ def communicate():
 openai.api_key = st.secrets.OpenAIAPI.openai_api_key
 
 # Sidebar configurations
-st.sidebar.markdown("**モデルの選択**")
+# st.sidebar.markdown("**モデルの選択**")
 model = st.sidebar.selectbox("モデル", ["gpt-4","gpt-3.5-turbo"])
 
-st.sidebar.markdown("**店員の選択**")
+# st.sidebar.markdown("**店員の選択**")
 clerk = st.sidebar.selectbox("店員", ["リサ", "ケン" ])
 clerk_setting = get_clerk_setting(clerk)
-
-# Reset Button
-if st.sidebar.button("リセット"):
-    st.session_state.clear()
 
 # Update the sidebar image based on the clerk selected
 clerk_images = {
@@ -49,6 +45,10 @@ clerk_images = {
     "ケン": "BMW_male_concierge1.png"
 }
 st.sidebar.image(clerk_images[clerk])
+
+# Reset Button
+if st.sidebar.button("リセット"):
+    st.session_state.clear()
 
 # Main interface
 st.image("bmw.jpg")
