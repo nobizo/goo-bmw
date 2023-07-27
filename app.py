@@ -50,7 +50,7 @@ if st.sidebar.button("設定"):
 
 # Reset Button
 if st.sidebar.button("リセット"):
-    st.session_state["trigger_rerun"] = not st.session_state.get("trigger_rerun", False)
+    st.session_state["trigger_rerun"] = True
 
 # if st.sidebar.button("リセット"):
 #    st.write("Resetting...")  # この行を追加
@@ -59,6 +59,7 @@ if st.sidebar.button("リセット"):
 
 # メインの処理部分の上部にこの処理を追加
 if st.session_state.get("trigger_rerun", False):
+    del st.session_state["trigger_rerun"]  # トリガーのリセット
     st.experimental_rerun()
 
 # Main interface
