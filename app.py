@@ -1,5 +1,6 @@
 import streamlit as st
 import openai
+from gtts import gTTS
 
 def get_clerk_setting(clerk):
     clerk_settings = {
@@ -15,29 +16,30 @@ def communicate():
     if not messages:
         messages.append({"role": "system", "content": get_clerk_setting(clerk)})
 
-    user_message = {"role": "user", "content": st.session_state.new_user_input}    
+    user_message = {"role": "user", "content": st.session_state["user_input"]}    
     messages.append(user_message)
     
-    response = openai.Completion.create(
+    response = openai.ChatCompletion.create(
         model=model,
-        prompt=f"User: {user_message['content']}\nAssistant:",
-        max_tokens=150
+        messages=messages
     )
     
-    bot_message_content = response.choices[0].text.strip()
-    messages.append({"role": "assistant", "content": bot_message_content})
-    
-    st.session_state.messages = messages  # Update the session state with modified messages
+    bot_message = response["choices"][0]["message"]
+    messages.append(bot_message)
+    st.session_state["user_input"] = ""
+    st.session_state["messages"] = messages  # Update the session state with modified messages
+
 
 # Set API keys
 openai.api_key = st.secrets.OpenAIAPI.openai_api_key
 
 # Sidebar configurations
 # st.sidebar.markdown("**モデルの選択**")
-model = st.sidebar.selectbox("モデル", ["gpt-4","gpt-3.5-turbo"])
+# model = st.sidebar.selectbox("モデル", ["gpt-3.5-turbo", "gpt-4"])
+model = "gpt-4"
 
 # st.sidebar.markdown("**店員の選択**")
-clerk = st.sidebar.selectbox("店員", ["リサ", "ケン" ])
+clerk = st.sidebar.selectbox("", ["リサ", "ケン" ])
 clerk_setting = get_clerk_setting(clerk)
 
 # Update the sidebar image based on the clerk selected
@@ -53,19 +55,19 @@ if st.sidebar.button("リセット"):
 
 # Main interface
 st.image("bmw.jpg")
+# st.write(f"{clerk}です。わたしはあなたのライフスタイルにあったクルマ探しのお手伝いをします。")
 
-# Display messages
-if "messages" in st.session_state:
-    for message in st.session_state["messages"]:
+if "messages" not in st.session_state:
+    st.session_state["messages"] = [{"role": "system", "content": st.secrets.AppSettings.chatbot_setting}]
+
+user_input = st.text_input("まずはあなたのニックネームと何をアドバイスしてほしいか教えてください。", key="user_input", on_change=communicate)
+
+if st.session_state["messages"]:
+    for message in reversed(st.session_state["messages"][1:]):
         speaker_icon = "🙎" if message["role"] == "user" else "🚗"
         st.write(speaker_icon + ": " + message["content"])
-
-# Input and send button
-initial_message = "まずはあなたのニックネームと何をアドバイスしてほしいか教えてください。" if "messages" not in st.session_state else ""
-col1, col2 = st.columns([4,1])
-user_input = col1.text_area("", value=initial_message, key="user_input")
-col2.write("")  # This creates some space above the button
-
-if col2.button("送信"):
-    st.session_state.new_user_input = user_input  # Change this line
-    communicate()
+        
+        text = message["content"]
+        tts = gTTS(text, lang='ja')
+        tts.save('welcome.mp3')
+        st.audio('welcome.mp3')
