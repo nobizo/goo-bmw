@@ -5,7 +5,7 @@ import openai
 custom_css = """
 <style>
     div[data-baseweb="base-input-container"] textarea {
-        height: 20px !important;  # この値を調整して希望の高さに設定
+        column-count: 2 !important;  # この値を調整して希望の高さに設定
     }
 </style>
 """
