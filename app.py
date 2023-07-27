@@ -1,6 +1,15 @@
 import streamlit as st
 import openai
 
+# カスタム CSS を用意
+custom_css = """
+<style>
+    textarea[data-baseweb="textarea"] {
+        height: 50px !important;  # この値を適切な高さに調整
+    }
+</style>
+"""
+
 #def get_clerk_setting(clerk, nickname=None):
 #    greeting = ""
 #    if nickname:
@@ -62,6 +71,8 @@ st.image("bmw.jpg")
 if "messages" not in st.session_state:
     st.session_state["messages"] = [{"role": "system", "content": st.secrets.AppSettings.chatbot_setting}]
 
+# CSS を Streamlit アプリに埋め込む
+st.markdown(custom_css, unsafe_allow_html=True)
 user_input = st.text_area("", height=2, key="user_input", on_change=communicate)
 
 if st.session_state["messages"]:
