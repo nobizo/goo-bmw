@@ -34,9 +34,9 @@ openai.api_key = st.secrets.OpenAIAPI.openai_api_key
 # Sidebar configurations
 st.sidebar.image("goo-net2.png")
 model = "gpt-4"
-
+clerk = "リサ"
 # Update the sidebar image based on the clerk selected
-clerk = st.sidebar.selectbox("", ["リサ", "ケン" ], index=0)  # Default value added
+# clerk = st.sidebar.selectbox("", ["リサ", "ケン" ], index=0)  # Default value added
 
 clerk_images = {
     "リサ": "BMW_female_concierge.png",
@@ -56,7 +56,7 @@ st.image("bmw.jpg")
 if "messages" not in st.session_state:
     st.session_state["messages"] = [{"role": "system", "content": st.secrets.AppSettings.chatbot_setting}]
 
-user_input = st.text_input("まずはあなたのニックネームと何をアドバイスしてほしいか教えてください。", key="user_input", on_change=communicate)
+user_input = st.text_input("", key="user_input", on_change=communicate)
 
 if st.session_state["messages"]:
     for message in reversed(st.session_state["messages"][1:]):
