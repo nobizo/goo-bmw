@@ -24,7 +24,7 @@ def communicate():
     )
     
     bot_message = response["choices"][0]["message"]
-    messages.append(bot_message)
+    messages.append({"role": "assistant", "content": bot_message["content"]})
     st.session_state["user_input"] = ""
     st.session_state["messages"] = messages  # Update the session state with modified messages
 
@@ -38,6 +38,10 @@ model = st.sidebar.selectbox("モデル", ["gpt-4","gpt-3.5-turbo"])
 st.sidebar.markdown("**店員の選択**")
 clerk = st.sidebar.selectbox("店員", ["リサ", "ケン" ])
 clerk_setting = get_clerk_setting(clerk)
+
+# Reset Button
+if st.sidebar.button("リセット"):
+    st.session_state.clear()
 
 # Update the sidebar image based on the clerk selected
 clerk_images = {
@@ -56,4 +60,10 @@ if st.session_state.get("messages"):
         st.write(speaker_icon + ": " + message["content"])
 
 # Move the message input to the bottom of the page
-user_input = st.text_area("まずはあなたのニックネームと何をアドバイスしてほしいか教えてください。", key="user_input", on_change=communicate)
+if "messages" not in st.session_state or len(st.session_state["messages"]) == 0:
+    st.session_state["user_input"] = st.text_area("まずはあなたのニックネームと何をアドバイスしてほしいか教えてください。", key="user_input")
+else:
+    st.session_state["user_input"] = st.text_area("", key="user_input")
+
+if st.button("送信"):
+    communicate()
