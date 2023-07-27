@@ -5,7 +5,7 @@ import openai
 custom_css = """
 <style>
     textarea[data-baseweb="textarea"] {
-        height: 50px !important;  # この値を適切な高さに調整
+        height: 20px !important;  # この値を適切な高さに調整
     }
 </style>
 """
