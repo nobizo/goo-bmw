@@ -37,14 +37,21 @@ clerk_images = {
 st.sidebar.image(clerk_images[clerk])
 
 # Add input for nickname and set button
-nickname = st.sidebar.text_input("ニックネームを入力:")
+if 'nickname' in st.session_state:
+    nickname = st.sidebar.text_input("ニックネームを入力:", value=st.session_state['nickname'])
+else:
+    nickname = st.sidebar.text_input("ニックネームを入力:")
+
 if st.sidebar.button("設定"):
     st.session_state["nickname"] = nickname
     communicate()  
 
 # Reset Button
 if st.sidebar.button("リセット"):
+    if 'nickname' in st.session_state:
+        del st.session_state['nickname']
     st.session_state.clear()
+
 
 # Main interface
 st.image("bmw.jpg")
