@@ -37,12 +37,8 @@ clerk_images = {
 st.sidebar.image(clerk_images[clerk])
 
 # Add input for nickname and set button
-if "reset_clicked" in st.session_state:
-    # 一度リセットが押された後は、このブロックに入る
-    nickname = st.sidebar.text_input("ニックネームを入力:")
-    del st.session_state["reset_clicked"]  # この状態をクリアして、次回のためにリセット
-else:
-    nickname = st.sidebar.text_input("ニックネームを入力:", value=st.session_state.get("nickname", ""))
+input_key = st.session_state.get("input_key", "nickname_input")
+nickname = st.sidebar.text_input("ニックネームを入力:", key=input_key)
 
 if st.sidebar.button("設定"):
     st.session_state["nickname"] = nickname
@@ -53,6 +49,8 @@ if st.sidebar.button("リセット"):
     keys_to_delete = list(st.session_state.keys())
     for key in keys_to_delete:
         del st.session_state[key]
+    # 新しいキーを生成して入力をリセット
+    st.session_state["input_key"] = "nickname_input_" + str(hash(input_key))
     st.experimental_rerun()
 
 
