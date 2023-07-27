@@ -28,7 +28,7 @@ def communicate():
     messages.append(bot_message)
     st.session_state["user_input"] = ""
     st.session_state["messages"] = messages  # Update the session state with modified messages
-
+    clerk = "リサ"
 
 # Set API keys
 openai.api_key = st.secrets.OpenAIAPI.openai_api_key
@@ -38,7 +38,6 @@ st.sidebar.image("goo-net2.png")
 # st.sidebar.markdown("**モデルの選択**")
 # model = st.sidebar.selectbox("モデル", ["gpt-3.5-turbo", "gpt-4"])
 model = "gpt-4"
-
 
 # Update the sidebar image based on the clerk selected
 clerk_images = {
