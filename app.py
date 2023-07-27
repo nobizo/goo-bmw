@@ -15,7 +15,7 @@ def communicate():
     if not messages:
         messages.append({"role": "system", "content": get_clerk_setting(clerk)})
 
-    user_message = {"role": "user", "content": st.session_state["user_input"]}    
+    user_message = {"role": "user", "content": st.session_state.user_input}    
     messages.append(user_message)
     
     response = openai.ChatCompletion.create(
@@ -25,8 +25,7 @@ def communicate():
     
     bot_message = response["choices"][0]["message"]
     messages.append({"role": "assistant", "content": bot_message["content"]})
-    st.session_state["user_input"] = ""
-    st.session_state["messages"] = messages  # Update the session state with modified messages
+    st.session_state.messages = messages  # Update the session state with modified messages
 
 # Set API keys
 openai.api_key = st.secrets.OpenAIAPI.openai_api_key
@@ -60,10 +59,8 @@ if st.session_state.get("messages"):
         st.write(speaker_icon + ": " + message["content"])
 
 # Move the message input to the bottom of the page
-if "messages" not in st.session_state or len(st.session_state["messages"]) == 0:
-    st.session_state["user_input"] = st.text_area("まずはあなたのニックネームと何をアドバイスしてほしいか教えてください。", key="user_input")
-else:
-    st.session_state["user_input"] = st.text_area("", key="user_input")
+initial_message = "まずはあなたのニックネームと何をアドバイスしてほしいか教えてください。" if "messages" not in st.session_state else ""
+user_input = st.text_area("", value=initial_message, key="user_input")
 
 if st.button("送信"):
     communicate()
