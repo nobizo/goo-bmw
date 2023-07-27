@@ -56,7 +56,7 @@ if "messages" not in st.session_state:
     st.session_state["messages"] = []
 
 # CSS を Streamlit アプリに埋め込む
-user_input = st.text_area("", key="user_input", on_change=communicate)
+user_input = st.text_input("", key="user_input", on_change=communicate)
 
 if st.session_state["messages"]:
     for message in reversed(st.session_state["messages"]):
