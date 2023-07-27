@@ -66,3 +66,4 @@ col2.write("")  # This creates some space above the button
 if col2.button("送信"):
     st.session_state.user_input = user_input
     communicate()
+
