@@ -1,19 +1,22 @@
 import streamlit as st
 import openai
 
-def get_clerk_setting(clerk):
+def get_clerk_setting(clerk, nickname=None):
+    greeting = ""
+    if nickname:
+        greeting = f"こんにちは、{nickname}さん。"
     clerk_settings = {
-        "リサ": "The assistant is a 23-year-old woman who speaks Kansai-ben, a dialect of Japanese. Her name is Sayuri.",
-        "ケン": "The assistant is a 35-year-old man who speaks kyoto-ben, a dialect of Japanese. His name is Kenji.",
+        "リサ": greeting + "The assistant is a 23-year-old woman who speaks Kansai-ben, a dialect of Japanese. Her name is Sayuri.",
+        "ケン": greeting + "The assistant is a 35-year-old man who speaks kyoto-ben, a dialect of Japanese. His name is Kenji.",
     }
     return clerk_settings.get(clerk)
 
 def communicate():
     messages = st.session_state.get("messages", [])
     
-    # Add system message based on clerk's setting
+    # Add system message based on clerk's setting and nickname
     if not messages:
-        messages.append({"role": "system", "content": get_clerk_setting(clerk)})
+        messages.append({"role": "system", "content": get_clerk_setting(clerk, st.session_state.get("nickname"))})
 
     user_message = {"role": "user", "content": st.session_state["user_input"]}    
     messages.append(user_message)
@@ -35,8 +38,6 @@ openai.api_key = st.secrets.OpenAIAPI.openai_api_key
 st.sidebar.image("goo-net2.png")
 model = "gpt-4"
 clerk = "リサ"
-# Update the sidebar image based on the clerk selected
-# clerk = st.sidebar.selectbox("", ["リサ", "ケン" ], index=0)  # Default value added
 
 clerk_images = {
     "リサ": "BMW_female_concierge.png",
@@ -44,7 +45,10 @@ clerk_images = {
 }
 st.sidebar.image(clerk_images[clerk])
 
-clerk_setting = get_clerk_setting(clerk)
+# Add input for nickname and set button
+nickname = st.sidebar.text_input("ニックネームを入力:")
+if st.sidebar.button("設定"):
+    st.session_state["nickname"] = nickname
 
 # Reset Button
 if st.sidebar.button("リセット"):
