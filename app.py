@@ -46,6 +46,7 @@ if st.sidebar.button("リセット"):
     keys_to_delete = list(st.session_state.keys())
     for key in keys_to_delete:
         del st.session_state[key]
+    st.session_state["nickname_temp"] = ""
     st.experimental_rerun()
 
 # Main interface
