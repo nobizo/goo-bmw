@@ -1,16 +1,6 @@
 import streamlit as st
 import openai
 
-#def get_clerk_setting(clerk, nickname=None):
-#    greeting = ""
-#    if nickname:
-#        greeting = f"こんにちは、{nickname}さん。"
-#    clerk_settings = {
-#        "リサ": greeting + "The assistant is a 23-year-old woman who speaks Kansai-ben, a dialect of Japanese. Her name is Sayuri.",
-#        "ケン": greeting + "The assistant is a 35-year-old man who speaks kyoto-ben, a dialect of Japanese. His name is Kenji.",
-#    }
-#    return clerk_settings.get(clerk)
-
 def communicate():
     messages = st.session_state.get("messages", [])
     
@@ -60,12 +50,12 @@ if st.sidebar.button("リセット"):
 st.image("bmw.jpg")
 
 if "messages" not in st.session_state:
-    st.session_state["messages"] = [{"role": "system", "content": st.secrets.AppSettings.chatbot_setting}]
+    st.session_state["messages"] = []
 
 # CSS を Streamlit アプリに埋め込む
 user_input = st.text_area("", key="user_input", on_change=communicate)
 
 if st.session_state["messages"]:
-    for message in reversed(st.session_state["messages"][1:]):
+    for message in reversed(st.session_state["messages"]):
         speaker_icon = "🙎" if message["role"] == "user" else "🚗"
         st.write(speaker_icon + ": " + message["content"])
