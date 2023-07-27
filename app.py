@@ -29,6 +29,9 @@ def communicate():
 # Set API keys
 openai.api_key = st.secrets.OpenAIAPI.openai_api_key
 
+# Set System role
+chatbot_system_role = st.secrets.AppSettings.chatbot_setting
+
 # Sidebar configurations
 st.sidebar.image("goo-net2.png")
 model = "gpt-4"
