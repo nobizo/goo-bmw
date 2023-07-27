@@ -4,8 +4,8 @@ import openai
 # カスタム CSS を用意
 custom_css = """
 <style>
-    textarea[data-baseweb="textarea"] {
-        height: 20px !important;  # この値を適切な高さに調整
+    div[data-baseweb="base-input-container"] textarea {
+        height: 40px !important;  # この値を調整して希望の高さに設定
     }
 </style>
 """
@@ -73,7 +73,7 @@ if "messages" not in st.session_state:
 
 # CSS を Streamlit アプリに埋め込む
 st.markdown(custom_css, unsafe_allow_html=True)
-user_input = st.text_area("", height=2, key="user_input", on_change=communicate)
+user_input = st.text_area("", key="user_input", on_change=communicate)
 
 if st.session_state["messages"]:
     for message in reversed(st.session_state["messages"][1:]):
