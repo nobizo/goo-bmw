@@ -50,8 +50,10 @@ if st.sidebar.button("設定"):
 
 # Reset Button
 if st.sidebar.button("リセット"):
-    st.session_state.clear()  # すべての状態をクリア
+    st.write("Resetting...")  # この行を追加
+    # st.session_state.clear()  # この行をコメントアウトしてみる
     st.experimental_rerun()  # ページを再読み込み
+
 
 # Main interface
 st.image("bmw.jpg")
