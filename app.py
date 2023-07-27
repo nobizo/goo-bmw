@@ -2,6 +2,8 @@ import streamlit as st
 import openai
 
 def communicate():
+    if not st.session_state.get("nickname"):
+        st.session_state["nickname"] = st.session_state.get("nickname_temp", "")
     messages = st.session_state.get("messages", [])
     
     # Add system message based on nickname
@@ -36,32 +38,14 @@ clerk_images = {
 }
 st.sidebar.image(clerk_images[clerk])
 
-# Add input for nickname and set button
-input_key = st.session_state.get("input_key", "nickname_input")
-nickname = st.sidebar.text_input("ニックネームを入力:", key=input_key)
-
-if st.sidebar.button("設定"):
-    st.session_state["nickname"] = nickname
-    communicate()  
+# Add input for nickname
+nickname = st.sidebar.text_input("ニックネームを入力:", key="nickname_temp", on_change=communicate)
 
 # Reset Button
 if st.sidebar.button("リセット"):
     keys_to_delete = list(st.session_state.keys())
     for key in keys_to_delete:
         del st.session_state[key]
-    # 新しいキーを生成して入力をリセット
-    st.session_state["input_key"] = "nickname_input_" + str(hash(input_key))
-    st.experimental_rerun()
-
-
-# if st.sidebar.button("リセット"):
-#    st.write("Resetting...")  # この行を追加
-#    # st.session_state.clear()  # この行をコメントアウトしてみる
-#    st.experimental_rerun()  # ページを再読み込み
-
-# メインの処理部分の上部にこの処理を追加
-if st.session_state.get("trigger_rerun", False):
-    del st.session_state["trigger_rerun"]  # トリガーのリセット
     st.experimental_rerun()
 
 # Main interface
