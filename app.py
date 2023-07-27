@@ -50,10 +50,16 @@ if st.sidebar.button("設定"):
 
 # Reset Button
 if st.sidebar.button("リセット"):
-    st.write("Resetting...")  # この行を追加
-    # st.session_state.clear()  # この行をコメントアウトしてみる
-    st.experimental_rerun()  # ページを再読み込み
+    st.session_state["trigger_rerun"] = not st.session_state.get("trigger_rerun", False)
 
+# if st.sidebar.button("リセット"):
+#    st.write("Resetting...")  # この行を追加
+#    # st.session_state.clear()  # この行をコメントアウトしてみる
+#    st.experimental_rerun()  # ページを再読み込み
+
+# メインの処理部分の上部にこの処理を追加
+if st.session_state.get("trigger_rerun", False):
+    st.experimental_rerun()
 
 # Main interface
 st.image("bmw.jpg")
