@@ -11,16 +11,28 @@ def communicate():
         greeting = f"こんにちは、{st.session_state['nickname']}さん。グーネットのBMWコンシェルジュサービスへようこそ！"
         messages.append({"role": "system", "content": greeting})
 
-    user_message = {"role": "user", "content": st.session_state["user_input"]}    
-    messages.append(user_message)
+    if st.session_state["user_input"].strip():
+        user_message = {"role": "user", "content": st.session_state["user_input"]}    
+        messages.append(user_message)
+        
+        response = openai.ChatCompletion.create(
+            model=model,
+            messages=messages
+        )
     
-    response = openai.ChatCompletion.create(
-        model=model,
-        messages=messages
-    )
-    
-    bot_message = response["choices"][0]["message"]
-    messages.append(bot_message)
+        bot_message = response["choices"][0]["message"]
+        messages.append(bot_message)
+
+#    #user_message = {"role": "user", "content": st.session_state["user_input"]}    
+#    #messages.append(user_message)
+#    #
+#    #response = openai.ChatCompletion.create(
+#    #    model=model,
+#    #    messages=messages
+#    #)
+#    
+#    #bot_message = response["choices"][0]["message"]
+#    #messages.append(bot_message)
     st.session_state["user_input"] = ""
     st.session_state["messages"] = messages  # Update the session state with modified messages
 
