@@ -60,8 +60,9 @@ if "messages" in st.session_state:
 
 # Input and send button
 initial_message = "まずはあなたのニックネームと何をアドバイスしてほしいか教えてください。" if "messages" not in st.session_state else ""
-col1, col2 = st.columns([6,1])
+col1, col2 = st.columns([4,1])
 user_input = col1.text_area("", value=initial_message, key="user_input")
+col2.write("")  # This creates some space above the button
 if col2.button("送信"):
     st.session_state.user_input = user_input
     communicate()
