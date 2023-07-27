@@ -32,9 +32,7 @@ openai.api_key = st.secrets.OpenAIAPI.openai_api_key
 # Set System role
 chatbot_system_role = st.secrets.AppSettings.chatbot_setting
 if "messages" not in st.session_state:
-    st.session_state["messages"] = [
-        {"role": "system", "content": chatbot_system_role}
-        ]
+    st.session_state["messages"] = [{"role": "system", "content": chatbot_system_role}]
 
 # Sidebar configurations
 st.sidebar.image("goo-net2.png")
@@ -82,10 +80,10 @@ else:
 #        st.write(speaker_icon + ": " + message["content"])
 #
 
-
 if st.session_state["messages"]:
     for message in reversed(st.session_state["messages"]):
-        if message["role"] == "system" and message["content"] == chatbot_system_role:
+        # chatbot_system_role はスキップ
+        if message["content"] == chatbot_system_role:
             continue
         speaker_icon = "🙎" if message["role"] == "user" else "🚗"
         st.write(speaker_icon + ": " + message["content"])
