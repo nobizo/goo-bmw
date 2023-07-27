@@ -6,8 +6,12 @@ def communicate():
         st.session_state["nickname"] = st.session_state.get("nickname_temp", "")
     messages = st.session_state.get("messages", [])
     
-    # Add system message based on nickname
-    if not messages and "nickname" in st.session_state:
+    # Add system role message for the bot
+    if not messages:
+        messages.append({"role": "system", "content": chatbot_system_role})
+    
+    # Add system greeting based on nickname
+    if "nickname" in st.session_state and not any(msg["role"] == "system" and msg["content"] != chatbot_system_role for msg in messages):
         greeting = f"こんにちは、{st.session_state['nickname']}さん。グーネットのBMWコンシェルジュサービスへようこそ！どんなクルマをお探しですか？BMWのことならどんなことでもご質問ください。"
         messages.append({"role": "system", "content": greeting})
 
@@ -25,6 +29,35 @@ def communicate():
 
     st.session_state["user_input"] = ""
     st.session_state["messages"] = messages  # Update the session state with modified messages
+
+#def communicate():
+#    if not st.session_state.get("nickname"):
+#        st.session_state["nickname"] = st.session_state.get("nickname_temp", "")
+#    messages = st.session_state.get("messages", [])
+#    
+#    # Add system message based on nickname
+#    if not messages and "nickname" in st.session_state:
+#        greeting = f"こんにちは、{st.session_state['nickname']}さん。グーネットのBMWコンシェルジュサービスへようこそ！どんなクルマをお探しですか？BMWのことならどんなことでもご質問ください。"
+#        messages.append({"role": "system", "content": greeting})#
+#
+#    if not messages:
+#        messages.append({"role": "system", "content": chatbot_system_role})
+#
+#    
+#    if st.session_state["user_input"].strip():
+#        user_message = {"role": "user", "content": st.session_state["user_input"]}    
+#        messages.append(user_message)
+#        
+#        response = openai.ChatCompletion.create(
+#            model=model,
+#            messages=messages
+#        )
+#    
+#        bot_message = response["choices"][0]["message"]
+#        messages.append(bot_message)
+#
+#    st.session_state["user_input"] = ""
+#    st.session_state["messages"] = messages  # Update the session state with modified messages
 
 # Set API keys
 openai.api_key = st.secrets.OpenAIAPI.openai_api_key
