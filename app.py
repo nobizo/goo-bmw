@@ -32,4 +32,35 @@ openai.api_key = st.secrets.OpenAIAPI.openai_api_key
 
 # Sidebar configurations
 st.sidebar.markdown("**モデルの選択**")
-model = st.sidebar.selectbox("
+model = st.sidebar.selectbox("モデル", ["gpt-4","gpt-3.5-turbo"])
+
+st.sidebar.markdown("**店員の選択**")
+clerk = st.sidebar.selectbox("店員", ["リサ", "ケン" ])
+clerk_setting = get_clerk_setting(clerk)
+
+# Reset Button
+if st.sidebar.button("リセット"):
+    st.session_state.clear()
+
+# Update the sidebar image based on the clerk selected
+clerk_images = {
+    "リサ": "BMW_female_concierge.png",
+    "ケン": "BMW_male_concierge1.png"
+}
+st.sidebar.image(clerk_images[clerk])
+
+# Main interface
+st.image("bmw.jpg")
+
+# Move the message input to the bottom of the page
+initial_message = "まずはあなたのニックネームと何をアドバイスしてほしいか教えてください。" if "messages" not in st.session_state else ""
+user_input = st.text_area("", value=initial_message, key="user_input")
+
+if st.button("送信"):
+    communicate()
+
+# Display messages (Reversed order to show old messages at the top)
+if "messages" in st.session_state:
+    for message in st.session_state["messages"]:
+        speaker_icon = "🙎" if message["role"] == "user" else "🚗"
+        st.write(speaker_icon + ": " + message["content"])
