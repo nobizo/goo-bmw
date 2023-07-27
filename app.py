@@ -15,7 +15,7 @@ def communicate():
     if not messages:
         messages.append({"role": "system", "content": get_clerk_setting(clerk)})
 
-    user_message = {"role": "user", "content": st.session_state.user_input}    
+    user_message = {"role": "user", "content": st.session_state.new_user_input}  # Change this line
     messages.append(user_message)
     
     response = openai.ChatCompletion.create(
@@ -63,7 +63,7 @@ initial_message = "まずはあなたのニックネームと何をアドバイ�
 col1, col2 = st.columns([4,1])
 user_input = col1.text_area("", value=initial_message, key="user_input")
 col2.write("")  # This creates some space above the button
-if col2.button("送信"):
-    st.session_state.user_input = user_input
-    communicate()
 
+if col2.button("送信"):
+    st.session_state.new_user_input = user_input  # Change this line
+    communicate()
