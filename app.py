@@ -1,15 +1,15 @@
 import streamlit as st
 import openai
 
-def get_clerk_setting(clerk, nickname=None):
-    greeting = ""
-    if nickname:
-        greeting = f"こんにちは、{nickname}さん。"
-    clerk_settings = {
-        "リサ": greeting + "The assistant is a 23-year-old woman who speaks Kansai-ben, a dialect of Japanese. Her name is Sayuri.",
-        "ケン": greeting + "The assistant is a 35-year-old man who speaks kyoto-ben, a dialect of Japanese. His name is Kenji.",
-    }
-    return clerk_settings.get(clerk)
+#def get_clerk_setting(clerk, nickname=None):
+#    greeting = ""
+#    if nickname:
+#        greeting = f"こんにちは、{nickname}さん。"
+#    clerk_settings = {
+#        "リサ": greeting + "The assistant is a 23-year-old woman who speaks Kansai-ben, a dialect of Japanese. Her name is Sayuri.",
+#        "ケン": greeting + "The assistant is a 35-year-old man who speaks kyoto-ben, a dialect of Japanese. His name is Kenji.",
+#    }
+#    return clerk_settings.get(clerk)
 
 def communicate():
     messages = st.session_state.get("messages", [])
