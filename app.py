@@ -1,6 +1,5 @@
 import streamlit as st
 import openai
-from gtts import gTTS
 
 def get_clerk_setting(clerk):
     clerk_settings = {
@@ -33,11 +32,6 @@ def communicate():
 openai.api_key = st.secrets.OpenAIAPI.openai_api_key
 
 # Sidebar configurations
-st.sidebar.image("goo-net2.png")
-if clerk == "リサ":
-    st.sidebar.image("BMW_female_concierge.png")
-else:
-    st.sidebar.image("BMW_male_concierge1.png")
 st.sidebar.markdown("**モデルの選択**")
 model = st.sidebar.selectbox("モデル", ["gpt-4","gpt-3.5-turbo"])
 
@@ -45,22 +39,21 @@ st.sidebar.markdown("**店員の選択**")
 clerk = st.sidebar.selectbox("店員", ["リサ", "ケン" ])
 clerk_setting = get_clerk_setting(clerk)
 
+# Update the sidebar image based on the clerk selected
+clerk_images = {
+    "リサ": "BMW_female_concierge.png",
+    "ケン": "BMW_male_concierge1.png"
+}
+st.sidebar.image(clerk_images[clerk])
+
 # Main interface
-# st.title(f"CAR CHAT α 23（{model}）")
 st.image("bmw.jpg")
-# st.write(f"{clerk}です。わたしはあなたのライフスタイルにあったクルマ探しのお手伝いをします。")
 
-if "messages" not in st.session_state:
-    st.session_state["messages"] = [{"role": "system", "content": st.secrets.AppSettings.chatbot_setting}]
-
-user_input = st.text_input("まずはあなたのニックネームと何をアドバイスしてほしいか教えてください。", key="user_input", on_change=communicate)
-
-if st.session_state["messages"]:
-    for message in reversed(st.session_state["messages"][1:]):
+# Display messages (Reversed order to show old messages at the top)
+if st.session_state.get("messages"):
+    for message in st.session_state["messages"]:
         speaker_icon = "🙎" if message["role"] == "user" else "🚗"
         st.write(speaker_icon + ": " + message["content"])
-        
-        text = message["content"]
-        tts = gTTS(text, lang='ja')
-        tts.save('welcome.mp3')
-        st.audio('welcome.mp3')
+
+# Move the message input to the bottom of the page
+user_input = st.text_area("まずはあなたのニックネームと何をアドバイスしてほしいか教えてください。", key="user_input", on_change=communicate)
