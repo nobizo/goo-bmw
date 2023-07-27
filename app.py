@@ -67,9 +67,13 @@ st.image("bmw-goo.jpg")
 if "messages" not in st.session_state:
     st.session_state["messages"] = []
 
-# ニックネームの入力から
+# セッションステートの"user_input"の初期化
+if "user_input" not in st.session_state:
+    st.session_state["user_input"] = ""
+
+# CSS を Streamlit アプリに埋め込む
 if "nickname" in st.session_state:
-    user_input = st.text_area("", key="user_input", on_change=communicate)
+    user_input = st.text_area("", value=st.session_state["user_input"], key="user_input", on_change=communicate)
 else:
     st.text_area("", "ニックネームをサイドバーから設定してください。", disabled=True)
 
