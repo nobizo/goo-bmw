@@ -61,7 +61,7 @@ if "messages" in st.session_state:
 
 # Input and send button
 initial_message = "まずはあなたのニックネームと何をアドバイスしてほしいか教えてください。" if "messages" not in st.session_state else ""
-col1, col2 = st.beta_columns([4,1])
+col1, col2 = st.columns([6,1])
 with col1:
     st.session_state.user_input = st.text_area("", value=initial_message, key="user_input")
 with col2:
