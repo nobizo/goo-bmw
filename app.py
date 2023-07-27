@@ -1,6 +1,5 @@
 import streamlit as st
 import openai
-# from gtts import gTTS
 
 def get_clerk_setting(clerk):
     clerk_settings = {
@@ -28,26 +27,23 @@ def communicate():
     messages.append(bot_message)
     st.session_state["user_input"] = ""
     st.session_state["messages"] = messages  # Update the session state with modified messages
-    clerk = "リサ"
 
 # Set API keys
 openai.api_key = st.secrets.OpenAIAPI.openai_api_key
 
 # Sidebar configurations
 st.sidebar.image("goo-net2.png")
-# st.sidebar.markdown("**モデルの選択**")
-# model = st.sidebar.selectbox("モデル", ["gpt-3.5-turbo", "gpt-4"])
 model = "gpt-4"
 
 # Update the sidebar image based on the clerk selected
+clerk = st.sidebar.selectbox("", ["リサ", "ケン" ], index=0)  # Default value added
+
 clerk_images = {
     "リサ": "BMW_female_concierge.png",
     "ケン": "BMW_male_concierge1.png"
 }
 st.sidebar.image(clerk_images[clerk])
 
-# st.sidebar.markdown("**店員の選択**")
-clerk = st.sidebar.selectbox("", ["リサ", "ケン" ])
 clerk_setting = get_clerk_setting(clerk)
 
 # Reset Button
@@ -56,7 +52,6 @@ if st.sidebar.button("リセット"):
 
 # Main interface
 st.image("bmw.jpg")
-# st.write(f"{clerk}です。わたしはあなたのライフスタイルにあったクルマ探しのお手伝いをします。")
 
 if "messages" not in st.session_state:
     st.session_state["messages"] = [{"role": "system", "content": st.secrets.AppSettings.chatbot_setting}]
@@ -67,8 +62,3 @@ if st.session_state["messages"]:
     for message in reversed(st.session_state["messages"][1:]):
         speaker_icon = "🙎" if message["role"] == "user" else "🚗"
         st.write(speaker_icon + ": " + message["content"])
-        
-#        text = message["content"]
-#        tts = gTTS(text, lang='ja')
-#        tts.save('welcome.mp3')
-#        st.audio('welcome.mp3')
