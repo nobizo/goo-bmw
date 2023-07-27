@@ -39,9 +39,6 @@ st.sidebar.image("goo-net2.png")
 # model = st.sidebar.selectbox("モデル", ["gpt-3.5-turbo", "gpt-4"])
 model = "gpt-4"
 
-# st.sidebar.markdown("**店員の選択**")
-clerk = st.sidebar.selectbox("", ["リサ", "ケン" ])
-clerk_setting = get_clerk_setting(clerk)
 
 # Update the sidebar image based on the clerk selected
 clerk_images = {
@@ -49,6 +46,10 @@ clerk_images = {
     "ケン": "BMW_male_concierge1.png"
 }
 st.sidebar.image(clerk_images[clerk])
+
+# st.sidebar.markdown("**店員の選択**")
+clerk = st.sidebar.selectbox("", ["リサ", "ケン" ])
+clerk_setting = get_clerk_setting(clerk)
 
 # Reset Button
 if st.sidebar.button("リセット"):
