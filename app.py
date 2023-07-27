@@ -31,6 +31,10 @@ openai.api_key = st.secrets.OpenAIAPI.openai_api_key
 
 # Set System role
 chatbot_system_role = st.secrets.AppSettings.chatbot_setting
+if "messages" not in st.session_state:
+    st.session_state["messages"] = [
+        {"role": "system", "content": chatbot_system_role}
+        ]
 
 # Sidebar configurations
 st.sidebar.image("goo-net2.png")
