@@ -1,6 +1,6 @@
 import streamlit as st
 import openai
-from gtts import gTTS
+# from gtts import gTTS
 
 def get_clerk_setting(clerk):
     clerk_settings = {
@@ -34,6 +34,7 @@ def communicate():
 openai.api_key = st.secrets.OpenAIAPI.openai_api_key
 
 # Sidebar configurations
+st.sidebar.image("goo-net2.png")
 # st.sidebar.markdown("**モデルの選択**")
 # model = st.sidebar.selectbox("モデル", ["gpt-3.5-turbo", "gpt-4"])
 model = "gpt-4"
@@ -67,7 +68,7 @@ if st.session_state["messages"]:
         speaker_icon = "🙎" if message["role"] == "user" else "🚗"
         st.write(speaker_icon + ": " + message["content"])
         
-        text = message["content"]
-        tts = gTTS(text, lang='ja')
-        tts.save('welcome.mp3')
-        st.audio('welcome.mp3')
+#        text = message["content"]
+#        tts = gTTS(text, lang='ja')
+#        tts.save('welcome.mp3')
+#        st.audio('welcome.mp3')
