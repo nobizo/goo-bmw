@@ -3,8 +3,8 @@ import openai
 
 def get_clerk_setting(clerk):
     clerk_settings = {
-        "リサ": "わたしはBMWのコンシェルジュです。BMWのことならなんでもご相談ください。",
-        "ケン": "わたしは本BMWショップの店長をしています。BMWのことならなんでもご相談ください。",
+        "リサ": "The assistant is a 23-year-old woman who speaks Kansai-ben, a dialect of Japanese. Her name is Sayuri.",
+        "ケン": "The assistant is a 35-year-old man who speaks kyoto-ben, a dialect of Japanese. His name is Kenji.",
     }
     return clerk_settings.get(clerk)
 
@@ -26,7 +26,6 @@ def communicate():
     bot_message = response["choices"][0]["message"]
     messages.append({"role": "assistant", "content": bot_message["content"]})
     st.session_state.messages = messages  # Update the session state with modified messages
-    st.session_state.user_input = ""  # Clear user input
 
 # Set API keys
 openai.api_key = st.secrets.OpenAIAPI.openai_api_key
@@ -62,8 +61,7 @@ if "messages" in st.session_state:
 # Input and send button
 initial_message = "まずはあなたのニックネームと何をアドバイスしてほしいか教えてください。" if "messages" not in st.session_state else ""
 col1, col2 = st.columns([6,1])
-with col1:
-    st.session_state.user_input = st.text_area("", value=initial_message, key="user_input")
-with col2:
-    if st.button("送信"):
-        communicate()
+user_input = col1.text_area("", value=initial_message, key="user_input")
+if col2.button("送信"):
+    st.session_state.user_input = user_input
+    communicate()
