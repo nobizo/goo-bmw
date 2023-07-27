@@ -50,6 +50,7 @@ st.sidebar.image(clerk_images[clerk])
 nickname = st.sidebar.text_input("ニックネームを入力:")
 if st.sidebar.button("設定"):
     st.session_state["nickname"] = nickname
+    communicate()  
 
 # Reset Button
 if st.sidebar.button("リセット"):
